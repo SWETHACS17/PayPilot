@@ -1,30 +1,37 @@
-const { PrismaClient } = require('@prisma/client');
-
-const prisma = new PrismaClient();
+const Invoice = require('../models/Invoice');
 
 const createInvoice = async (data) => {
-    return await prisma.invoice.create({
-        data: {
+    try {
+        const invoice = new Invoice({
             customerName: data.customerName,
             amount: parseFloat(data.amount),
             description: data.description,
             dueDate: new Date(data.dueDate),
             status: "PENDING"
-        }
-    });
+        });
+        return await invoice.save();
+    } catch (error) {
+        console.error("Error creating invoice:", error);
+        throw error;
+    }
 };
 
 const getInvoice = async (id) => {
-    return await prisma.invoice.findUnique({
-        where: { id }
-    });
+    try {
+        return await Invoice.findById(id);
+    } catch (error) {
+        console.error("Error fetching invoice:", error);
+        return null;
+    }
 };
 
 const updateInvoiceStatus = async (id, status) => {
-    return await prisma.invoice.update({
-        where: { id },
-        data: { status }
-    });
+    try {
+        return await Invoice.findByIdAndUpdate(id, { status }, { new: true });
+    } catch (error) {
+        console.error("Error updating invoice:", error);
+        return null;
+    }
 };
 
 const markInvoiceAsPaid = async (id) => {

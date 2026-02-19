@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const { initializeWhatsApp, getClient } = require('./services/whatsappService');
 const { initScheduler } = require('./services/schedulerService');
 require('dotenv').config();
@@ -8,12 +9,16 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('MongoDB connection error:', err));
+
 // Initialize WhatsApp Client
 initializeWhatsApp();
 
-// Initialize Scheduler (once client is ready, but we pass the getClient accessor or similar)
-// Ideally wait for ready event, but for simplicity:
-const client = getClient(); // might be undefined initially, scheduler handles it or we pass a getter
+// Initialize Scheduler
+const client = getClient();
 initScheduler(client);
 
 app.get('/', (req, res) => {

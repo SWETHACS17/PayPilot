@@ -1,28 +1,32 @@
-# Node.js
+# General
 node_modules/
+.DS_Store
+Thumbs.db
 npm-debug.log
 yarn-error.log
 
-# Environment variables
+# Environment Variables
+.env
 backend/.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# Build artifacts
-dist/
-build/
+# Backend
+backend/node_modules/
+backend/dist/
+backend/build/
+backend/coverage/
 
-# Editor directories and files
+# Session Data (WhatsApp Web)
+backend/.wwebjs_auth/
+backend/.wwebjs_cache/
+
+# Logs
+backend/logs/
+*.log
+
+# Editor
 .vscode/
 .idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# OS generated files
-.DS_Store
-Thumbs.db

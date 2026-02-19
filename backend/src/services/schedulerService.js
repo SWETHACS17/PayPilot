@@ -1,6 +1,5 @@
 const cron = require('node-cron');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+const Invoice = require('../models/Invoice');
 
 const initScheduler = (whatsappClient) => {
     console.log('Initializing Scheduler...');
@@ -11,23 +10,20 @@ const initScheduler = (whatsappClient) => {
 
         try {
             const today = new Date();
-            const overdueInvoices = await prisma.invoice.findMany({
-                where: {
-                    status: 'PENDING',
-                    dueDate: {
-                        lt: today
-                    }
+            const overdueInvoices = await Invoice.find({
+                status: 'PENDING',
+                dueDate: {
+                    $lt: today
                 }
             });
 
             console.log(`Found ${overdueInvoices.length} overdue invoices.`);
 
             for (const invoice of overdueInvoices) {
-                // In a real app, you would have the user's phone number linked to the invoice or customer
-                // For this demo, we'll log it or send to a default/admin number if available
-                console.log(`Sending reminder for Invoice #${invoice.id} (${invoice.customerName})`);
+                // In a real app, you would have the user's phone number linked.
+                console.log(`Sending reminder for Invoice #${invoice._id} (${invoice.customerName})`);
 
-                // Example: whatsappClient.sendMessage(userPhoneNumber, `Reminder: Invoice ${invoice.id} is overdue.`);
+                // Example: whatsappClient.sendMessage(userPhoneNumber, `Reminder: Invoice ${invoice._id} is overdue.`);
             }
         } catch (error) {
             console.error('Error in scheduler:', error);

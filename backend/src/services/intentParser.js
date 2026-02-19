@@ -1,31 +1,43 @@
-const OpenAI = require('openai');
+const Groq = require('groq-sdk');
 require('dotenv').config();
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+const groq = new Groq({
+    apiKey: process.env.GROQ_API_KEY
 });
 
 async function parseIntent(text) {
-    if (!process.env.OPENAI_API_KEY) {
-        console.warn("OPENAI_API_KEY not found, using simple keyword matching.");
+    if (!process.env.GROQ_API_KEY) {
+        console.warn("GROQ_API_KEY not found, using simple keyword matching.");
         return mockParse(text);
     }
 
     try {
-        const response = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
+        console.log("Parsing intent with Groq...");
+        const completion = await groq.chat.completions.create({
             messages: [
                 {
                     role: "system",
-                    content: "You are an intent parser. Extract: intent (create_invoice, update_payment), amount, customerName, description, dueDate, invoiceId. Return JSON."
+                    content: "You are an invoice assistant. Extract structured data from the user's request. Output ONLY valid JSON.\n" +
+                        "If the user wants to create an invoice, return: { \"intent\": \"create_invoice\", \"customerName\": \"...\", \"amount\": 0, \"description\": \"...\", \"dueDate\": \"YYYY-MM-DD\" }.\n" +
+                        "If no due date is mentioned, use today + 7 days.\n" +
+                        "If the user says 'Paid [ID]', return: { \"intent\": \"update_payment\", \"invoiceId\": \"...\" }.\n" +
+                        "If you cannot understand, return: { \"intent\": \"unknown\" }."
                 },
-                { role: "user", content: text }
+                {
+                    role: "user",
+                    content: text
+                }
             ],
+            model: "llama3-8b-8192",
+            temperature: 0,
             response_format: { type: "json_object" }
         });
-        return JSON.parse(response.choices[0].message.content);
+
+        const content = completion.choices[0]?.message?.content;
+        console.log("Groq Response:", content);
+        return JSON.parse(content);
     } catch (error) {
-        console.error("OpenAI Error:", error);
+        console.error("Groq Error:", error);
         return mockParse(text);
     }
 }
