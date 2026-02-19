@@ -27,8 +27,13 @@ const updateInvoiceStatus = async (id, status) => {
     });
 };
 
+const markInvoiceAsPaid = async (id) => {
+    return await updateInvoiceStatus(id, 'PAID');
+};
+
 module.exports = {
     createInvoice,
     getInvoice,
-    updateInvoiceStatus
+    updateInvoiceStatus,
+    markInvoiceAsPaid
 };

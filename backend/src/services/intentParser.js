@@ -17,7 +17,7 @@ async function parseIntent(text) {
             messages: [
                 {
                     role: "system",
-                    content: "You are an intent parser for an invoice generator. Extract: amount, customerName, description, dueDate. Return JSON."
+                    content: "You are an intent parser. Extract: intent (create_invoice, update_payment), amount, customerName, description, dueDate, invoiceId. Return JSON."
                 },
                 { role: "user", content: text }
             ],
@@ -31,6 +31,15 @@ async function parseIntent(text) {
 }
 
 function mockParse(text) {
+    // Check for "paid" command (e.g., "paid 102")
+    const paidMatch = text.match(/paid\s+(.+)/i);
+    if (paidMatch) {
+        return {
+            intent: "update_payment",
+            invoiceId: paidMatch[1].trim()
+        };
+    }
+
     // innovative regex parsing for demonstration
     const amountMatch = text.match(/amount\s*(\d+)/i);
     const nameMatch = text.match(/for\s*([a-zA-Z\s]+)/i);
