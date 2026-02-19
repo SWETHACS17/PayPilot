@@ -1,7 +1,8 @@
 from sarvamai import SarvamAI
+import os
 
 def main():
-    client = SarvamAI(api_subscription_key="YOUR_API_KEY")
+    client = SarvamAI(api_subscription_key=os.getenv("SARVAM_API_KEY"))
 
     # Create batch job — change mode as needed
     job = client.speech_to_text_job.create_job(
