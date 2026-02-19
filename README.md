@@ -4,6 +4,14 @@ PayPilot is an AI-powered invoice generator that integrates directly with **What
 
 The system uses **Groq (Llama 3)** for intent parsing, **Sarvam AI** for voice-to-text transcription, and **Puppeteer** for generating professional PDF invoices. All data is stored in **Supabase**.
 
+The standard government invoice format is used in pdf generation
+
+---
+
+## Youtube link
+
+https://youtu.be/plaVIN5-mLU
+
 ---
 
 ## Features
