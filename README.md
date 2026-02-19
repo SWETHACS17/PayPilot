@@ -101,7 +101,14 @@ npm run dev
 ```
 
 ---
+## Screenshots
+![WhatsApp Image 2026-02-19 at 19 47 35](https://github.com/user-attachments/assets/1ca3ea3b-3411-42cd-a876-ffb40d554368)
+Transcribed text
+![WhatsApp Image 2026-02-19 at 19 47 35 (1)](https://github.com/user-attachments/assets/284f946b-f14c-41d7-8818-dd75bcd2a2d4)
+Pdf auto generated
+![WhatsApp Image 2026-02-19 at 19 46 17](https://github.com/user-attachments/assets/47c917a6-b3d6-4120-b176-e82857439f28)
 
+---
 ## How to Use
 
 1. **Start the Bot**: Run the server. It will generate a QR code in the terminal.
