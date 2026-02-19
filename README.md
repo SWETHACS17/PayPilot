@@ -1,254 +1,122 @@
-# 🧾 Conversational AI Invoice Generator
+# PayPilot Backend
 
-An AI-powered conversational invoice system that allows users to create, manage, and track invoices using natural language via chat or voice.
+PayPilot is an AI-powered invoice generator that integrates directly with **WhatsApp**. It allows users to create, view, and manage invoices using natural language text or voice notes.
 
-Example input:
-
-> “Invoice ₹15,000 to ABC Traders for consulting, due in 7 days”
-
-The system extracts structured data, confirms details, generates a PDF invoice, and supports reminders and payment tracking.
+The system uses **Groq (Llama 3)** for intent parsing, **Sarvam AI** for voice-to-text transcription, and **Puppeteer** for generating professional PDF invoices. All data is stored in **Supabase**.
 
 ---
 
-## 🚀 Features
+## Features
 
-- 💬 Natural language invoice creation
-- 🎙️ Voice-to-text (Sarvam STT integration)
-- 🧠 LLM-based intent parsing (structured JSON output)
-- ✅ Confirmation before invoice creation
-- 📄 Automatic PDF invoice generation
-- 💾 Invoice storage (PostgreSQL / SQLite)
-- 🔔 Reminder scheduling
-- 💰 Payment simulation & reconciliation
-- 📱 Optional WhatsApp Cloud API integration
-- 🌐 Web chat UI support (Next.js)
+- **WhatsApp Interface**: Interact with the bot entirely through WhatsApp.
+- **Natural Language Invoicing**: "Create invoice for 5000 to ABC Corp for consulting"
+- **Voice Support**: Send voice notes (English/Hindi), powered by Sarvam AI.
+- **Smart Intent Parsing**: Uses LLMs (Groq/Llama 3) to extract structured data from text.
+- **PDF Generation**: Automatically generates and sends PDF invoices.
+- **Payment Tracking**: Mark invoices as paid using natural language.
+- **Scheduler**: Automated checks for overdue invoices.
 
 ---
 
-## 🏗️ Architecture Overview
+## Tech Stack
 
-```
-User (Chat / Voice)
-        ↓
-Web UI / WhatsApp Webhook
-        ↓
-FastAPI Backend
-   ├── STT Service (Sarvam)
-   ├── Intent Parser (LLM)
-   ├── Invoice Service
-   ├── PDF Generator
-   ├── Reminder Scheduler
-   └── PostgreSQL Database
-```
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: Supabase (PostgreSQL)
+- **WhatsApp Integration**: `whatsapp-web.js`
+- **AI / LLM**: Groq SDK (Llama 3.3 70B Versatile)
+- **Speech-to-Text**: Sarvam AI
+- **PDF Generation**: Puppeteer
+- **Scheduling**: Node-cron
 
 ---
 
-## 🛠️ Tech Stack
-
-### Backend
-- Python
-- FastAPI
-- SQLAlchemy
-- PostgreSQL (or SQLite for MVP)
-- APScheduler
-- WeasyPrint (PDF generation)
-- httpx (async API calls)
-
-### AI / NLP
-- Sarvam STT API (voice → text)
-- OpenAI / LLM structured extraction
-
-### Frontend (Optional)
-- Next.js
-- Tailwind CSS
-
----
-
-## 📂 Project Structure
+## Project Structure
 
 ```
 backend/
-│
-├── main.py
-├── database.py
-├── models.py
-│
-├── routes/
-│   ├── webhook.py
-│   └── invoices.py
-│
-├── services/
-│   ├── stt_service.py
-│   ├── intent_parser.py
-│   ├── invoice_service.py
-│   └── pdf_generator.py
-│
-└── scheduler/
-    └── reminders.py
+├── src/
+│   ├── services/
+│   │   ├── intentParser.js    # LLM interaction (Groq)
+│   │   ├── invoiceService.js  # DB operations (Supabase)
+│   │   ├── pdfService.js      # PDF generation (Puppeteer)
+│   │   ├── schedulerService.js# Cron jobs for reminders
+│   │   ├── sttService.js      # Speech-to-text (Sarvam AI)
+│   │   ├── supabaseClient.js  # DB connection
+│   │   └── whatsappService.js # WhatsApp bot logic
+│   ├── index.js               # Enry point
+│   └── setupDatabase.js       # Database initialization script
+├── .env                       # Environment variables
+├── package.json               # Dependencies
+└── README.md                  # Documentation
 ```
 
 ---
 
-## ⚙️ Setup Instructions
+## Setup & Installation
 
-### 1️⃣ Clone Repository
-
+### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/conversational-invoice-ai.git
-cd conversational-invoice-ai
+git clone <repository-url>
+cd PayPilot/backend
 ```
 
----
-
-### 2️⃣ Create Virtual Environment
-
+### 2. Install Dependencies
 ```bash
-python -m venv venv
-source venv/bin/activate   # Mac/Linux
-venv\Scripts\activate      # Windows
+npm install
 ```
 
----
+### 3. Environment Variables
+Create a `.env` file in the `backend/` directory with the following keys:
 
-### 3️⃣ Install Dependencies
+```env
+PORT=3000
 
+# WhatsApp (Optional, handled by whatsapp-web.js)
+# WHATSAPP_CLIENT_ID=
+
+# Supabase Configuration
+SUPABASE_URL=your_supabase_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# AI Services
+GROQ_API_KEY=your_groq_api_key
+SARVAM_API_KEY=your_sarvam_api_key
+```
+
+### 4. Database Setup
+Run the setup script to create the necessary tables in your Supabase project:
 ```bash
-pip install -r requirements.txt
+npm run setup-db
 ```
+*Note: This script creates an `invoices` table if it doesn't exist.*
 
-Example `requirements.txt`:
-
-```
-fastapi
-uvicorn
-sqlalchemy
-psycopg2-binary
-python-dotenv
-apscheduler
-weasyprint
-httpx
-python-multipart
-openai
-```
-
----
-
-### 4️⃣ Configure Environment Variables
-
-Create a `.env` file:
-
-```
-DATABASE_URL=postgresql://user:password@localhost/invoice_db
-SARVAM_API_KEY=your_sarvam_key
-OPENAI_API_KEY=your_openai_key
-WHATSAPP_TOKEN=your_whatsapp_token
-```
-
----
-
-### 5️⃣ Run Server
-
+### 5. Start the Server
 ```bash
-uvicorn main:app --reload
+npm start
 ```
-
-Open API docs:
-
-```
-http://127.0.0.1:8000/docs
-```
-
----
-
-## 🧠 How It Works
-
-### 1️⃣ User Input
-
-Text or voice message:
-```
-Invoice ₹15,000 to ABC Traders for consulting, due in 7 days
+OR for development with auto-reload:
+```bash
+npm run dev
 ```
 
 ---
 
-### 2️⃣ Voice Processing (If Audio)
+## How to Use
 
-- Audio file received
-- Sent to Sarvam STT
-- Transcript returned
-
----
-
-### 3️⃣ Intent Parsing
-
-LLM extracts structured fields:
-
-```json
-{
-  "amount": 15000,
-  "customer_name": "ABC Traders",
-  "description": "consulting",
-  "due_date": "2026-02-26"
-}
-```
+1. **Start the Bot**: Run the server. It will generate a QR code in the terminal.
+2. **Scan QR Code**: Use WhatsApp on your phone to scan the QR code (Linked Devices).
+3. **Send Commands**:
+   - **Create Invoice**:
+     > "Create invoice of ₹15,000 to ABC Traders for consulting, due in 7 days"
+   - **Check Status**:
+     > "Show invoice status for #1234"
+   - **Mark as Paid**:
+     > "Mark invoice #1234 as paid"
+   - **Voice Note**:
+     > *Record a voice note saying the same commands.*
 
 ---
 
-### 4️⃣ Confirmation Flow
-
-System replies:
-
-```
-Create invoice of ₹15,000 to ABC Traders for "consulting", due in 7 days?
-```
-
-User confirms before saving.
-
----
-
-### 5️⃣ Invoice Creation
-
-- Saved in database
-- Invoice ID generated
-- PDF created
-- Payment link generated (demo)
-
----
-
-### 6️⃣ Payment Simulation
-
-User can send:
-
-```
-mark invoice 102 as paid
-```
-
-System updates status and sends confirmation.
-
----
-
-## 🗄️ Database Schema (Simplified)
-
-### Users
-- id
-- name
-- phone
-
-### Customers
-- id
-- user_id
-- name
-- phone
-
-### Invoices
-- id
-- user_id
-- customer_id
-- amount
-- description
-- due_date
-- status (draft / sent / paid / overdue)
-
----
-
-## 🎯 MVP Scope
+## License
+ISC

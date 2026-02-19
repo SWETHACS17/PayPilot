@@ -8,18 +8,34 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Initialize WhatsApp Client
-initializeWhatsApp();
-
-// Initialize Scheduler (once client is ready, but we pass the getClient accessor or similar)
-// Ideally wait for ready event, but for simplicity:
-const client = getClient(); // might be undefined initially, scheduler handles it or we pass a getter
-initScheduler(client);
-
+// ─────────────────────────────────────────────
+// Health Check Endpoint
+// ─────────────────────────────────────────────
 app.get('/', (req, res) => {
-    res.send('PayPilot Backend is running');
+    res.json({
+        service: 'PayPilot Backend',
+        status: 'running',
+        version: '1.0.0',
+        timestamp: new Date().toISOString()
+    });
 });
 
+// ─────────────────────────────────────────────
+// Initialize WhatsApp Client
+// ─────────────────────────────────────────────
+console.log('🚀 Starting PayPilot Backend...\n');
+initializeWhatsApp();
+
+// ─────────────────────────────────────────────
+// Initialize Scheduler (pass getClient so it can
+// lazily retrieve the client when WhatsApp is ready)
+// ─────────────────────────────────────────────
+initScheduler(getClient);
+
+// ─────────────────────────────────────────────
+// Start Express Server
+// ─────────────────────────────────────────────
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`\n🌐 Express server running on http://localhost:${PORT}`);
+    console.log('📱 Waiting for WhatsApp QR code...\n');
 });
