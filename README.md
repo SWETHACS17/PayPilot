@@ -6,13 +6,12 @@ The system uses **Groq (Llama 3)** for intent parsing, **Sarvam AI** for voice-t
 
 The standard government invoice format is used in pdf generation
 
----
+
 
 ## Youtube link
 
 https://youtu.be/plaVIN5-mLU
 
----
 
 ## Features
 
@@ -24,7 +23,7 @@ https://youtu.be/plaVIN5-mLU
 - **Payment Tracking**: Mark invoices as paid using natural language.
 - **Scheduler**: Automated checks for overdue invoices.
 
----
+
 
 ## Tech Stack
 
@@ -37,7 +36,7 @@ https://youtu.be/plaVIN5-mLU
 - **PDF Generation**: Puppeteer
 - **Scheduling**: Node-cron
 
----
+
 
 ## Project Structure
 
@@ -59,7 +58,6 @@ backend/
 └── README.md                  # Documentation
 ```
 
----
 
 ## Setup & Installation
 
@@ -108,22 +106,10 @@ OR for development with auto-reload:
 npm run dev
 ```
 
----
-## Screenshots
-![WhatsApp Image 2026-02-19 at 19 47 35](https://github.com/user-attachments/assets/1ca3ea3b-3411-42cd-a876-ffb40d554368)
-### Transcribed text
-
-![WhatsApp Image 2026-02-19 at 19 47 35 (1)](https://github.com/user-attachments/assets/284f946b-f14c-41d7-8818-dd75bcd2a2d4)
-### Pdf auto generated
-
-![WhatsApp Image 2026-02-19 at 19 46 17](https://github.com/user-attachments/assets/47c917a6-b3d6-4120-b176-e82857439f28)
-
-
----
 ## How to Use
 
 1. **Start the Bot**: Run the server. It will generate a QR code in the terminal.
-2. **Scan QR Code**: Use WhatsApp on your phone to scan the QR code (Linked Devices).
+2. **Scan QR Code**: Use WhatsApp on your phone to scan the QR code (Linked Devices explained below).
 3. **Send Commands**:
    - **Create Invoice**:
      > "Create invoice of ₹15,000 to ABC Traders for consulting, due in 7 days"
@@ -134,7 +120,26 @@ npm run dev
    - **Voice Note**:
      > *Record a voice note saying the same commands.*
 
----
 
-## License
-ISC
+```
+╔══════════════════════════════════════════════════╗
+                WHATSAPP QR CODE — SCAN ME!                           
+╠══════════════════════════════════════════════════╣
+  How to connect:                                                
+  1. Open WhatsApp on your phone                                 
+  2. Tap⋮ (Menu) → "Linked Devices"                               
+  3. Tap "Link a Device"                                         
+  4. Point your phone camera at the QR below                     
+╚══════════════════════════════════════════════════╝
+```
+
+---
+## Screenshots
+![WhatsApp Image 2026-02-19 at 19 47 35](https://github.com/user-attachments/assets/1ca3ea3b-3411-42cd-a876-ffb40d554368)
+### Transcribed text
+
+![WhatsApp Image 2026-02-19 at 19 47 35 (1)](https://github.com/user-attachments/assets/284f946b-f14c-41d7-8818-dd75bcd2a2d4)
+### Pdf auto generated
+
+![WhatsApp Image 2026-02-19 at 19 46 17](https://github.com/user-attachments/assets/47c917a6-b3d6-4120-b176-e82857439f28)
+
