@@ -4,7 +4,7 @@ PayPilot is an AI-powered invoice generator that integrates directly with **What
 
 The system uses **Groq (Llama 3)** for intent parsing, **Sarvam AI** for voice-to-text transcription, and **Puppeteer** for generating professional PDF invoices. All data is stored in **Supabase**.
 
-The standard government invoice format is used in pdf generation
+The standard government invoice format is used in pdf generation.
 
 
 
@@ -127,19 +127,21 @@ npm run dev
 ╠══════════════════════════════════════════════════╣
   How to connect:                                                
   1. Open WhatsApp on your phone                                 
-  2. Tap⋮ (Menu) → "Linked Devices"                               
+  2. Tap ⋮ (Menu) → "Linked Devices"                               
   3. Tap "Link a Device"                                         
   4. Point your phone camera at the QR below                     
 ╚══════════════════════════════════════════════════╝
 ```
 
----
 ## Screenshots
-![WhatsApp Image 2026-02-19 at 19 47 35](https://github.com/user-attachments/assets/1ca3ea3b-3411-42cd-a876-ffb40d554368)
+
+### QR code to link your mobile to the system through whatsapp
+
+<img width="482" height="337" alt="Screenshot 2026-02-19 162808" src="https://github.com/user-attachments/assets/4b0bd9ab-f660-43d8-9a17-df02b0f6e066" />
+
 ### Transcribed text
+<img width="486" height="207" alt="Screenshot 2026-02-19 194643" src="https://github.com/user-attachments/assets/3de08cb2-07c8-4d69-be67-43f6d75acb0b" />
 
-![WhatsApp Image 2026-02-19 at 19 47 35 (1)](https://github.com/user-attachments/assets/284f946b-f14c-41d7-8818-dd75bcd2a2d4)
 ### Pdf auto generated
-
-![WhatsApp Image 2026-02-19 at 19 46 17](https://github.com/user-attachments/assets/47c917a6-b3d6-4120-b176-e82857439f28)
+<img width="210" height="537" alt="image" src="https://github.com/user-attachments/assets/b8975afa-d6e6-40e4-a889-a30dbfc4e637" />
 
